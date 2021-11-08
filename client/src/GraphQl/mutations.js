@@ -45,3 +45,11 @@ export const UPDATE_USER_BY_ID = gql`
 		}
 	}
 `;
+
+export const DELETE_USER_BY_ID = gql`
+	mutation deleteUserById($id: Int!) {
+		deleteUserById(id: $id) {
+			id
+		}
+	}
+`;

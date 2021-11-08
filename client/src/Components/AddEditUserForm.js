@@ -64,20 +64,27 @@ export const AddEditUserForm = () => {
 					{...register("givenName")}
 					placeholder="Given name"
 					autoFocus
+					disabled={loading}
 				/>
 				<input
 					type="text"
 					{...register("familyName")}
 					placeholder="Family name"
+					disabled={loading}
 				/>
-				<input type="text" {...register("email")} placeholder="Email" />
+				<input
+					type="text"
+					{...register("email")}
+					placeholder="Email"
+					disabled={loading}
+				/>
 				<input
 					type="text"
 					{...register("gender")}
 					placeholder="Gender"
 					disabled={loading}
 				/>
-				<input type="submit" value="Save" />
+				<input type="submit" value="Save" disabled={loading} />
 			</form>
 		</>
 	);
