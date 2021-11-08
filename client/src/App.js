@@ -15,6 +15,11 @@ const App = () => {
 			<Routes>
 				<Route path="/users" exact element={<UserList />} />
 				<Route path="/users/add" exact element={<AddEditUserForm />} />
+				<Route
+					path="/users/edit/:id"
+					exact
+					element={<AddEditUserForm />}
+				/>
 				<Route path="/users/:id" exact element={<UserProfile />} />
 			</Routes>
 		</ApolloProvider>

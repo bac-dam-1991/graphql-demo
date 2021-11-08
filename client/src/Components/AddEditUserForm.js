@@ -1,35 +1,51 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { CREATE_NEW_USER } from "../GraphQl/mutations";
-import { useNavigate } from "react-router-dom";
+import { CREATE_NEW_USER, UPDATE_USER_BY_ID } from "../GraphQl/mutations";
+import { useNavigate, useParams } from "react-router-dom";
+import { GET_USER_BY_ID } from "../GraphQl/queries";
 
 export const AddEditUserForm = () => {
 	const navigate = useNavigate();
+	const { id } = useParams();
 
-	const { register, handleSubmit } = useForm({
-		defaultValues: {
-			givenName: "Bac",
-			familyName: "Dam",
-			gender: "Male",
-			email: "bac.dam.1991@gmail.com",
-		},
+	const { data: userData } = useQuery(GET_USER_BY_ID, {
+		variables: { id: parseInt(id) },
 	});
-	const [addUser, { data, loading }] = useMutation(CREATE_NEW_USER);
+
+	const { register, handleSubmit, reset } = useForm();
+	const [mutateUser, { data, loading }] = useMutation(
+		id ? UPDATE_USER_BY_ID : CREATE_NEW_USER
+	);
 
 	const onSubmit = (formData) => {
-		console.log({ formData });
-		addUser({
-			variables: formData,
+		const payload = {
+			...formData,
+		};
+
+		if (id) {
+			payload.id = parseInt(id);
+		}
+
+		mutateUser({
+			variables: payload,
 		});
 	};
+
+	useEffect(() => {
+		if (!userData) {
+			return;
+		}
+		reset(userData.getUserById);
+	}, [userData, reset]);
 
 	useEffect(() => {
 		if (!data) {
 			return;
 		}
-		navigate(`/users/${data.createNewUser.id}`);
-	}, [data, navigate]);
+		const userId = id || data.createNewUser.id;
+		navigate(`/users/${userId}`);
+	}, [data, navigate, id]);
 
 	return (
 		<>

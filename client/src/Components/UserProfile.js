@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { GET_USER_BY_ID } from "../GraphQl/queries";
 
 export const UserProfile = () => {
@@ -18,6 +18,12 @@ export const UserProfile = () => {
 		setUser(data.getUserById);
 	}, [data]);
 
+	const navigate = useNavigate();
+
+	const editUser = () => {
+		navigate(`/users/edit/${id}`);
+	};
+
 	return (
 		<div>
 			{loading && <div>Loading...</div>}
@@ -29,6 +35,7 @@ export const UserProfile = () => {
 					<div>{user.id}</div>
 					<div>{user.gender}</div>
 					<div>{user.email}</div>
+					<button onClick={editUser}>Edit</button>
 				</>
 			)}
 		</div>

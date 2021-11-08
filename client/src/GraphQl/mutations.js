@@ -21,3 +21,27 @@ export const CREATE_NEW_USER = gql`
 		}
 	}
 `;
+
+export const UPDATE_USER_BY_ID = gql`
+	mutation updateUserById(
+		$id: Int!
+		$givenName: String!
+		$familyName: String!
+		$gender: String!
+		$email: String!
+	) {
+		updateUserById(
+			id: $id
+			givenName: $givenName
+			familyName: $familyName
+			gender: $gender
+			email: $email
+		) {
+			familyName
+			givenName
+			id
+			email
+			gender
+		}
+	}
+`;
